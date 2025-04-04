@@ -6,11 +6,8 @@ const cars = sequelize.define('cars', {
     brand: { type:DataTypes.STRING, allowNull: false},
     model: { type:DataTypes.STRING, allowNull: false},
     year: { type:DataTypes.INTEGER, allowNull: false},
-    plate: { type:DataTypes.STRING, allowNull: false},
-    created_at: { type:DataTypes.DATE, allowNull: false, 
-        defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
-    } 
-})
+    plate: { type:DataTypes.STRING, allowNull: false}
+ }, { timestamps: true, createdAt: 'created_at', updatedAt: false })
 
 sequelize.sync();
 

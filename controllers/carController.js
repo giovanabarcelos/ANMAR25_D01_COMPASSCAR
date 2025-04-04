@@ -13,7 +13,16 @@ exports.createCar = async(req, res) => {
 
         const car = await cars.create(newCar)
 
-        res.status(201).json(car)
+        const response = {
+            id: car.id, 
+            brand: car.brand, 
+            model: car.model, 
+            year: car.year, 
+            plate: car.plate, 
+            created_at: car.created_at
+        }
+
+        res.status(201).json(response)
     } catch (error) {
         res.status(400).json({error: error.message})
     }

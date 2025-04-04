@@ -11,14 +11,16 @@ const validateCar = (req, res, next) => {
     }
     if (!plate){
         errors.push('plate is required')
-    } else if (!/^[A-Z]{3}-[0-9][A-J0-9][0-9]{2}$/.test(plate))
+    } else if (!/^[A-Z]{3}-[0-9][A-J0-9][0-9]{2}$/.test(plate)) {
         errors.push('plate must be in the correct format ABC-1C34')
+    }
 
     if (errors.length > 0){
         return res.status(400).json({ errors })
     }
 
     next();
+    
 }
 
 module.exports = validateCar;
