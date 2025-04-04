@@ -4,7 +4,7 @@ services:
     container_name: mysql
     environment:
     - MYSQL_ROOT_PASSWORD=myPassword
-    - MYSQL_DATABASE=cars
+    - MYSQL_DATABASE=compasscar
     ports:
     - "3306:3306"      
     volumes:
@@ -34,7 +34,7 @@ services:
     - DB_HOST=mysql
     - DB_USER=root
     - DB_PASSWORD=myPassword
-    - DB_NAME=cars
+    - DB_NAME=compasscar
     ports:
     - "8000:3000"
     depends_on:
