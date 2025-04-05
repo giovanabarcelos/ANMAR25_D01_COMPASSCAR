@@ -1,4 +1,5 @@
 const { cars, cars_items } = require('../models')
+const sequelize = require('../config/database');
 
 exports.createCar = async(req, res) => {
     try {
@@ -73,6 +74,49 @@ exports.getCarById = async(req, res) => {
         };
 
         res.status(200).json(response);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+}
+
+exports.listCars = async(req, res) => {
+    try {
+        const {year, final_plate, brand, page, limit} = req.query
+
+        const pageNum = Math.max(parseInt(page) || 1, 1)
+        let limitNum = parseInt(limit) || 5; 
+        if (limitNum < 1) limitNum = 5; 
+        if (limitNum > 10) limitNum = 10;
+        const offset = (pageNum -1) * limitNum;
+
+        const where = {}
+
+        if (year) { 
+            where.year = { [sequelize.Sequelize.Op.gte]: parseInt(year)}
+        }
+
+        if (brand) {
+            where.brand = { [sequelize.Sequelize.Op.like]: `%${brand}%`}
+        }
+        
+        if (final_plate) {
+            where.plate = sequelize.where(
+              sequelize.fn('substr', sequelize.col('plate'), -1),
+              final_plate
+            )
+        }
+
+        console.log(where)
+
+        const {rows: data, count} = await cars.findAndCountAll( {
+            where, offset, limit: limitNum, order: [['id', 'ASC']]
+        })
+        
+        const pages = Math.ceil( count / limitNum )
+
+        res.status(200).json({
+            count, pages, data
+        })
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
