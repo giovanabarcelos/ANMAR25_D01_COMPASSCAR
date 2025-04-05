@@ -1,4 +1,4 @@
-const { cars } = require('../models')
+const { cars, cars_items } = require('../models')
 
 exports.createCar = async(req, res) => {
     try {
@@ -23,6 +23,26 @@ exports.createCar = async(req, res) => {
         }
 
         res.status(201).json(response)
+    } catch (error) {
+        res.status(400).json({error: error.message})
+    }
+}
+
+exports.registerItemsCar = async(req, res) => {
+    try {
+        const items = req.body;
+
+        await cars_items.destroy({
+            where: { car_id: req.params.id }
+        })
+
+        const cars_items_created = await cars_items.bulkCreate(
+            items.map( name => (
+                { name, car_id: req.params.id}
+            ))
+        )
+
+        res.status(204).json()
     } catch (error) {
         res.status(400).json({error: error.message})
     }
