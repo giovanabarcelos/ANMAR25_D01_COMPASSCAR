@@ -8,5 +8,6 @@ const validateCarExists = require('../middlewares/validateCarExists')
 
 router.post('/', validateCar, validateCarPlate, carController.createCar)
 router.put('/:id/items', validateCarExists, validateRegisterItemsCars, carController.registerItemsCar)
+router.get('/:id', validateCarExists, carController.getCarById)
 
 module.exports = router;

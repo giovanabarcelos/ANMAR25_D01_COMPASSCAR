@@ -1,7 +1,23 @@
-const sequelize = require('../config/database')
-const cars = require('./cars')
-const cars_items = require('./cars_items')
+const { Sequelize } = require('sequelize');
+const sequelize = require('../config/database');
+const DataTypes = Sequelize.DataTypes;
 
-const db = { sequelize, cars, cars_items }
+const cars = require('./cars')(sequelize, DataTypes);
+const cars_items = require('./cars_items')(sequelize, DataTypes);
 
-module.exports = db 
+const db = {
+  sequelize,
+  Sequelize,
+  cars,
+  cars_items
+};
+
+Object.keys(db).forEach(modelName => {
+  if (db[modelName].associate) {
+    db[modelName].associate(db);
+  }
+});
+
+sequelize.sync()
+
+module.exports = db;
