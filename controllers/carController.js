@@ -121,3 +121,23 @@ exports.listCars = async(req, res) => {
         res.status(400).json({ error: error.message });
     }
 }
+
+exports.updateCar = async(req, res) => {
+    try {
+        const {brand, model, year, plate} = req.body;
+
+        const car = await cars.findByPk(req.params.id)
+
+        const fieldsToUpdate = {}
+        if (brand) fieldsToUpdate.brand = brand
+        if (model) fieldsToUpdate.model = model
+        if (year) fieldsToUpdate.year = year
+        if (plate) fieldsToUpdate.plate = plate
+
+        await car.update(fieldsToUpdate)
+
+        return res.status(204).send();
+    } catch (error) {
+        res.status(400).json({error: error.message})
+    }
+}
