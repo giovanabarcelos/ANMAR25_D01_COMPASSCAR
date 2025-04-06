@@ -25,7 +25,7 @@ exports.createCar = async(req, res) => {
 
         res.status(201).json(response)
     } catch (error) {
-        res.status(400).json({error: error.message})
+        res.status(500).json({error: "an internal server error occurred"})
     }
 }
 
@@ -45,7 +45,7 @@ exports.registerItemsCar = async(req, res) => {
 
         res.status(204).json()
     } catch (error) {
-        res.status(400).json({error: error.message})
+        res.status(500).json({error: "an internal server error occurred"})
     }
 }
 
@@ -74,8 +74,8 @@ exports.getCarById = async(req, res) => {
         };
 
         res.status(200).json(response);
-    } catch (error) {
-        res.status(400).json({ error: error.message });
+    } catch (error) {        
+        res.status(500).json({error: "an internal server error occurred"})
     }
 }
 
@@ -118,7 +118,7 @@ exports.listCars = async(req, res) => {
             count, pages, data
         })
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        res.status(500).json({error: "an internal server error occurred"})
     }
 }
 
@@ -138,7 +138,7 @@ exports.updateCar = async(req, res) => {
 
         return res.status(204).send();
     } catch (error) {
-        res.status(400).json({error: error.message})
+        res.status(500).json({error: "an internal server error occurred"})
     }
 }
 
@@ -156,6 +156,6 @@ exports.deleteCar = async(req, res) => {
 
         return res.status(204).send();
     } catch (error) {
-        res.status(400).json({error: error.message})
+        res.status(500).json({error: "an internal server error occurred"})
     }
 }
