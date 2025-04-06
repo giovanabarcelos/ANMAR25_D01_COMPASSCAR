@@ -141,3 +141,21 @@ exports.updateCar = async(req, res) => {
         res.status(400).json({error: error.message})
     }
 }
+
+exports.deleteCar = async(req, res) => {
+    try {
+        const { id } = req.params;
+
+        const car = await cars.findByPk(id)        
+        
+        await cars_items.destroy( {
+            where: { car_id: id}
+        })
+
+        await car.destroy();
+
+        return res.status(204).send();
+    } catch (error) {
+        res.status(400).json({error: error.message})
+    }
+}

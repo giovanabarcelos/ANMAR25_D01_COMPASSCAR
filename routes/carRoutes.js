@@ -12,5 +12,6 @@ router.put('/:id/items', validateCarNotExists, validateRegisterItemsCars, carCon
 router.get('/:id', validateCarNotExists, carController.getCarById)
 router.get('/', carController.listCars)
 router.patch('/:id',validateCarOnUpdate, validateCarPlate, validateCarNotExists, carController.updateCar)
+router.delete('/:id', validateCarNotExists, carController.deleteCar)
 
 module.exports = router;
